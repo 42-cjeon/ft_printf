@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:39:10 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/21 05:58:23 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/21 07:08:55 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ const char				*process_max_len(const char *format, \
 const char				*process_min_len(const char *format, \
 													struct s_format_info *fi);
 
-size_t					print_arg_with_format(struct s_format_info *fi, \
+ssize_t					print_arg_with_format(struct s_format_info *fi, \
 																 va_list *va);
 size_t					ft_printf(const char *format, ...);
 
@@ -148,6 +148,8 @@ int						is_digit(char c);
 int						int_selector(int when_false, int when_true, \
 																int select);
 size_t					size_selector(size_t when_false, size_t when_true, \
+																int select);
+ssize_t					ssize_selector(ssize_t when_false, ssize_t when_true, \
 																int select);
 void					*pointer_selector(void *when_false, void *when_true, \
 																int select);

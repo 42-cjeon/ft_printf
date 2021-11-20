@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:52:10 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/21 05:41:21 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/21 07:02:20 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,15 @@ const char	*do_nothing(const char *format, struct s_format_info *fi)
 {
 	(void)fi;
 	return (format);
+}
+
+void	init_si(struct s_string_info *si)
+{
+	si->left_sign = 0;
+	si->prefix[0] = '\0';
+	si->prefix[1] = '\0';
+	si->prefix[2] = '\0';
+	si->mid_padding = 0;
+	si->total_len = 0;
+	si->main_part = NULL;
 }

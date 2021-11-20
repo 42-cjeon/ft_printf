@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:55:35 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/21 06:30:23 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/21 07:08:28 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,20 @@ static const t_arg_to_string	g_arg_to_string_table[10] = {
 	percent_sign_to_string
 };
 
-size_t	print_arg_with_format(struct s_format_info *fi, va_list *va)
+ssize_t	print_arg_with_format(struct s_format_info *fi, va_list *va)
 {
 	union u_arg				arg;
 	char					buf[30];
 	struct s_string_info	si;
-	size_t					len;
+	ssize_t					len;
+	ssize_t					expected_len;
 
 	g_get_arg_table[fi->type % 14](&arg, va);
 	si = g_arg_to_string_table[fi->type % 14](buf, &arg, fi);
 	len = 0;
 	len += print_left_sign(&si);
-	len += putchar_repeat(int_selector(' ', '0', (fi->flag & ZERO_PAD) && !(fi->flag & PRECISION)), \
+	len += putchar_repeat(int_selector(' ', '0', (fi->flag & ZERO_PAD) \
+											&& !(fi->flag & PRECISION)), \
 											(si.total_len < fi->min_len) \
 											* (fi->min_len - si.total_len) \
 											* ((fi->flag & LEFT_ALIGN) == 0));
@@ -59,7 +61,9 @@ size_t	print_arg_with_format(struct s_format_info *fi, va_list *va)
 	len += putchar_repeat(' ', (si.total_len < fi->min_len) \
 								* (fi->min_len - si.total_len) \
 								* ((fi->flag & LEFT_ALIGN) != 0));
-	return (len);
+	expected_len = ssize_selector(fi->min_len, si.total_len, \
+										fi->min_len < si.total_len);
+	return (ssize_selector(-1, len, len == expected_len));
 }
 
 size_t	ft_printf(const char *format, ...)

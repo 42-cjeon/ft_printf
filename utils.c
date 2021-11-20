@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:38:51 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/21 06:16:09 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/21 07:03:03 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,11 @@ void	*pointer_selector(void *when_false, void *when_true, int select)
 	return (arr[select != 0]);
 }
 
-void	init_si(struct s_string_info *si)
+ssize_t	ssize_selector(ssize_t when_false, ssize_t when_true, int select)
 {
-	si->left_sign = 0;
-	si->prefix[0] = '\0';
-	si->prefix[1] = '\0';
-	si->prefix[2] = '\0';
-	si->mid_padding = 0;
-	si->total_len = 0;
-	si->main_part = NULL;
+	ssize_t	arr[2];
+
+	arr[0] = when_false;
+	arr[1] = when_true;
+	return (arr[select != 0]);
 }

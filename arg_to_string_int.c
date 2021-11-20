@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:47:47 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/21 06:43:47 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/21 07:09:28 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ struct s_string_info	int_to_string(char *buf, union u_arg *arg, \
 									(fi->flag & EMPTY_SPACE) && (0 <= arg->i));
 	si.left_sign = (fi->flag & ZERO_PAD) \
 					&& !(fi->flag & LEFT_ALIGN) \
-					&& (si.prefix[0])
+					&& (si.prefix[0]) \
 					&& !(fi->flag & PRECISION);
 	prefix_len = (si.prefix[0] != '\0');
 	main_len = itoa_int(buf, arg->i);
