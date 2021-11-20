@@ -1,12 +1,11 @@
 CC = clang
-CFLAGS = 
+CFLAGS = -Wall -Wextra -Werror
 
 NAME = libftprintf.a
-SRCS = arg_to_stringf1.c arg_to_stringf2.c arg_to_stringf3.c \
-	format_parser.c format_parser_helper.c ft_printf.c \
-	get_arg1.c get_arg2.c utils.c itoa.c
-OBJS_ROOT = objs
-#OBJS = $(addprefix $(OBJS_ROOT)/, $(SRCS:.c=.o))
+SRCS = arg_to_string_char.c arg_to_string_hex.c arg_to_string_int.c \
+		format_parser_helper.c format_parser1.c format_parser2.c format_parser_main.c \
+		print_helper.c convert_digits.c string_utils.c utils.c \
+		get_arg1.c get_arg2.c ft_printf.c 
 OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
@@ -27,7 +26,4 @@ fclean : clean
 
 re : fclean all
 
-test : all main.c
-	$(CC) -L. -lftprintf main.c -o main && ./main
-
-.PHONY : all clean fclean re test
+.PHONY : all clean fclean re
