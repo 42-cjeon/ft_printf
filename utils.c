@@ -6,24 +6,12 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:38:51 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/20 21:20:46 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/21 03:16:59 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t ft_strlen(const char *str)
-{
-	size_t len;
-
-	len = 0;
-	while (*str)
-	{
-		len++;
-		str++;
-	}
-	return (len);
-}
 
 int	is_digit(char c)
 {
@@ -46,20 +34,6 @@ size_t max(size_t x, size_t y)
 	arr[0] = x;
 	arr[1] = y;
 	return (arr[(x < y)]);
-}
-
-void ft_strrev(char *str, size_t left, size_t right)
-{
-	char	temp;
-
-	while(left < right)
-	{
-		temp = str[left];
-		str[left] = str[right];
-		str[right] = temp;
-		left++;
-		right--;
-	}
 }
 
 int int_selector(int when_false, int when_true, int select)
@@ -92,4 +66,15 @@ void *pointer_selector(void *when_false, void *when_true, int select)
 long long abs_64(long long x)
 {
 	return (0);
+}
+
+void init_si(struct s_string_info *si)
+{
+	si->left_sign = 0;
+	si->prefix[0] = '\0';
+	si->prefix[1] = '\0';
+	si->prefix[2] = '\0';
+	si->mid_padding = 0;
+	si->total_len = 0;
+	si->main_part = NULL;
 }

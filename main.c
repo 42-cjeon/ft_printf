@@ -5,8 +5,11 @@
 int main(void)
 {
 	int a;
+	ssize_t o;
+	ssize_t r;
 	const char *string = "-";
-	printf("|%#8.50000x|\n", 100);
-	ft_printf("|%-50000d|\n", 100);
+	o = printf("|%04d|\n", 9);
+	r = ft_printf("|%04d|\n", 9);
+	printf("EXPECTED=%zd, RECIVED=%zd\n", o, r);
 	return 0;
 }
