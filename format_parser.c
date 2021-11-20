@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:49:34 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/19 01:54:22 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/20 14:13:47 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ const char *process_max_len(const char *format, struct s_format_info *fi)
 		max = max * 10 + (*format - '0');
 		format++;
 	}
-	fi->max_len = max;
+	fi->max_len = size_selector(max, ~(0U), max==0);
+
 	return format;
 }
 

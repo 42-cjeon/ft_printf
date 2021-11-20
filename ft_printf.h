@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:39:10 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/19 08:57:51 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/20 14:11:30 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ enum e_flags
 
 typedef size_t (*t_arg_to_stringf)(char **string, union u_arg *arg, struct s_format_info *fi);
 typedef void (*t_get_argf)(union u_arg *arg, va_list *va);
-typedef int (*t_sign_handlerf)(char *sign_place, unsigned int flag);
+typedef int (*t_sign_handlerf)(unsigned int flag);
 
-int handle_positive_sign(char *sign_place, unsigned int flag);
-int handle_negative_sign(char *sign_place, unsigned int flag);
+int handle_positive_sign(unsigned int flag);
+int handle_negative_sign(unsigned int flag);
 size_t int_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
 size_t uint_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
 size_t	char_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
@@ -78,6 +78,8 @@ void ft_strrev(char *str, size_t left, size_t right);
 size_t max(size_t x, size_t y);
 size_t min(size_t x, size_t y);
 int	is_digit(char c);
-size_t ft_strlen(char *str);
+size_t ft_strlen(const char *str);
+int int_selector(int x, int y, int select);
+size_t size_selector(size_t x, size_t y, int select);
 
 #endif

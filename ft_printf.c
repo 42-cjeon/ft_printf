@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:55:35 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/19 08:58:08 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/20 13:36:18 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,15 @@ size_t print_arg_with_format(struct s_format_info *fi, va_list *va)
 {
 	union u_arg arg;
 	char buf[30];
-	size_t padding[4];
 	char *p_buf;
 	size_t len;
 	
 	p_buf = buf;
 	g_get_argf_table[fi->type % 14](&arg, va);
 	len = g_arg_to_stringf_table[fi->type % 14](&p_buf, &arg, fi);
-	padding[0] = (len < fi->min_len) * (fi->min_len - len) * ((fi->flag & RIGHT_ALIGN) == 0);
-	padding[1] = (len < fi->min_len) * (fi->min_len - len) * ((fi->flag & RIGHT_ALIGN) != 0);
-	padding[2] = ' ';
-	padding[3] = '0';
-	ft_putchar_repeat(padding[((fi->flag & ZERO_PAD) != 0) + 2], padding[0]);
+	ft_putchar_repeat(int_selector(' ', '0', fi->flag & ZERO_PAD), (len < fi->min_len) * (fi->min_len - len) * ((fi->flag & RIGHT_ALIGN) == 0));
 	write(1, p_buf, len);
-	ft_putchar_repeat(padding[((fi->flag & ZERO_PAD) != 0) + 2], padding[1]);
+	ft_putchar_repeat(' ', (len < fi->min_len) * (fi->min_len - len) * ((fi->flag & RIGHT_ALIGN) != 0));
 	return (max(len, fi->min_len));
 }
 

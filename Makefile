@@ -25,4 +25,7 @@ fclean : clean
 
 re : fclean all
 
+test : all main.c
+	$(CC) -L. -lftprintf main.c -o main && ./main
+
 .PHONY : all clean fclean re
