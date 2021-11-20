@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:39:10 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/20 14:11:30 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/20 21:10:50 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stddef.h>
 # include <stdint.h>
 # include <stdarg.h>
-
+# include <unistd.h>
 union u_arg
 {
 	int				i;
@@ -41,23 +41,33 @@ enum e_flags
 	EMPTY_SPACE = 2,
 	POS_SIGN = 4,
 	ZERO_PAD = 8,
-	RIGHT_ALIGN = 16
+	RIGHT_ALIGN = 16,
+	PRECISION = 32
 };
 
-typedef size_t (*t_arg_to_stringf)(char **string, union u_arg *arg, struct s_format_info *fi);
+typedef struct	s_string_info
+{
+	char	left_sign;		// 오른쪽 정렬 + ZEROPADDING 일 때 맨 왼쪽에 부호를 위한 자리
+	char	prefix[3];		// # 옵션에서 0x 또는 위에 조건에 해당하지 않을때 부호 를 위한 자리
+	size_t	mid_padding;	// precision 이 활성화 되었을 때 ZEROPADDING 개수
+	char	*main_part;		// 
+	size_t	total_len;
+};
+
+typedef size_t (*t_arg_to_stringf)(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
 typedef void (*t_get_argf)(union u_arg *arg, va_list *va);
 typedef int (*t_sign_handlerf)(unsigned int flag);
 
 int handle_positive_sign(unsigned int flag);
 int handle_negative_sign(unsigned int flag);
-size_t int_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
-size_t uint_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
-size_t	char_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
-size_t	percent_sign_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
-size_t	string_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
-size_t pointer_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
-size_t uhex_low_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
-size_t uhex_high_to_string(char **string, union u_arg *arg, struct s_format_info *fi);
+void int_to_string(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
+void uint_to_string(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
+void char_to_string(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
+void percent_sign_to_string(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
+void string_to_string(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
+void pointer_to_string(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
+void uhex_low_to_string(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
+void uhex_high_to_string(struct s_string_info *si, union u_arg *arg, struct s_format_info *fi);
 unsigned int search_flag_char(char c);
 int search_type(char c);
 const char *process_type(const char *format, struct s_format_info *fi);
@@ -81,5 +91,12 @@ int	is_digit(char c);
 size_t ft_strlen(const char *str);
 int int_selector(int x, int y, int select);
 size_t size_selector(size_t x, size_t y, int select);
+
+ssize_t __normal(const char *format, va_list *va);
+ssize_t __format(const char *format, va_list *va);
+ssize_t __end(const char *format, va_list *va);
+
+const char *do_nothing(const char *format, struct s_format_info *fi);
+void *pointer_selector(void *when_false, void *when_true, int select);
 
 #endif

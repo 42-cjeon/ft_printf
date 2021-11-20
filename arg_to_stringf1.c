@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:47:47 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/20 13:48:43 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/20 21:32:13 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,20 @@ static const t_sign_handlerf g_sign_handler_table[2] = \
 	handle_negative_sign
 };
 
-size_t int_to_string(char **string, union u_arg *arg, struct s_format_info *fi)
+void int_to_string(char **string, union u_arg *arg, struct s_format_info *fi)
 {
-	int			sign_space;
+	char		sign;
+	char		sign_left;
 	size_t		i;
 
+	sign = int_selector(int_selector('-', '\0', 0 <= arg->i), int_selector(' ', '+', fi->flag & POS_SIGN), (0 <= arg->i));
+	sign_left = (fi->flag & RIGHT_ALIGN) && (fi->flag & ZERO_PAD);
 	sign_space = g_sign_handler_table[arg->i < 0](fi->flag);
 	i = 0;
 	arg->li = (long long)arg->i;
 	arg->li = (((arg->li > 0) - 1) ^ arg->li) - ((arg->li > 0) - 1);
 	(*string)[i++] = arg->li % 10 + '0';
+
 	arg->li /= 10;
 	while (arg->li)
 	{
@@ -60,7 +64,7 @@ size_t int_to_string(char **string, union u_arg *arg, struct s_format_info *fi)
 size_t uint_to_string(char **string, union u_arg *arg, struct s_format_info *fi)
 {
 	size_t	i;
-
+	
 	i = 0;
 	(*string)[i++] = arg->u % 10 + '0';
 	arg->u /= 10;

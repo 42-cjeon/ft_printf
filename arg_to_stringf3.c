@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:48:10 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/19 09:05:48 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/20 19:13:16 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ size_t uhex_low_to_string(char **string, union u_arg *arg, struct s_format_info 
 
 	(*string)[0] = '0';
 	(*string)[1] = 'x';
-	i = (0 < (fi->flag & ALT_MOD)) * 2;
+	i = (0 < (fi->flag & ALT_MOD)) * 2 * (arg->u != 0);
 	left = i;
 	(*string)[i++] = g_hex_low_digits[arg->u % 16];
 	arg->u /= 16;
@@ -60,7 +60,7 @@ size_t uhex_high_to_string(char **string, union u_arg *arg, struct s_format_info
 	size_t	left;
 	(*string)[0] = '0';
 	(*string)[1] = 'X';
-	i = (0 < (fi->flag & ALT_MOD)) * 2;
+	i = (0 < (fi->flag & ALT_MOD)) * 2 * (arg->u != 0);
 	left = i;
 	(*string)[i++] = g_hex_high_digits[arg->u % 16];
 	arg->u /= 16;

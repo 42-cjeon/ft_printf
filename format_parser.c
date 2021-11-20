@@ -6,7 +6,7 @@
 /*   By: cjeon <cjeon@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 01:49:34 by cjeon             #+#    #+#             */
-/*   Updated: 2021/11/20 14:13:47 by cjeon            ###   ########.fr       */
+/*   Updated: 2021/11/20 19:33:45 by cjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@ const char *process_type(const char *format, struct s_format_info *fi)
 
 const char *process_max_len(const char *format, struct s_format_info *fi)
 {
-	size_t max;
+	size_t max_len;
 
-	max = 0;
+	max_len = 0;
+	format++;
 	while (*format && is_digit(*format))
 	{
-		max = max * 10 + (*format - '0');
+		max_len = max_len * 10 + (*format - '0');
 		format++;
 	}
-	fi->max_len = size_selector(max, ~(0U), max==0);
-
-	return format;
+	fi->max_len = max_len;
+	fi->flag |= PRECISION;
+	return (format);
 }
 
 const char *process_min_len(const char *format, struct s_format_info *fi)
@@ -73,15 +74,24 @@ const char *process_flags(const char *format, struct s_format_info *fi)
 	return format;
 }
 
+typedef const char *(*processf)(const char *format, struct s_format_info *fi);
+
+const char *do_nothing(const char *format, struct s_format_info *fi)
+{
+	return (format);
+}
+
+static const processf is_max_len_exists[2] = {do_nothing, process_max_len};
 const char *parse_format(const char *format, struct s_format_info *fi)
 {
+	
 	fi->flag = 0;
-	fi->max_len = (1UL<<63);
+	fi->max_len = 0;
 	fi->min_len = 0;
 	fi->type = 22;
 	format = process_flags(format, fi);
 	format = process_min_len(format, fi);
-	format = process_max_len(format, fi);
+	format = is_max_len_exists[*format == '.'](format, fi);
 	format = process_type(format, fi);
 	return format;
 }

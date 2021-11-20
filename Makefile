@@ -17,6 +17,8 @@ $(OBJS) : $(SRCS)
 
 all : $(NAME)
 
+bonus : all
+
 clean :
 	rm -f $(OBJS)
 
